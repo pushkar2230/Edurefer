@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cart - Edurefer</title>
+
+  <link rel="stylesheet" href="static/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* CARD */
+    .card {
+      margin-top: 30px;
+      background: rgba(255,255,255,0.06);
+      backdrop-filter: blur(12px);
+      border-radius: 16px;
+      padding: 25px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+  .cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255,255,255,0.05);
+    padding: 18px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    transition: 0.3s;
+  }
+
+  .cart-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+  }
+
+  /* RIGHT SIDE BUTTON GROUP */
+  .cart-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  /* COMMON BUTTON STYLE */
+  .cart-btn {
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  /* MINUS */
+  .btn-minus {
+    background: #1f2937;
+    color: white;
+  }
+
+  .btn-minus:hover {
+    background: #374151;
+  }
+
+  /* PLUS */
+  .btn-plus {
+    background: linear-gradient(90deg,#00cc33,#0077ff);
+    color: white;
+  }
+
+  .btn-plus:hover {
+    transform: scale(1.1);
+  }
+
+  /* DELETE */
+  .btn-delete {
+    background: #ef4444;
+    color: white;
+  }
+
+  .btn-delete:hover {
+    background: #dc2626;
+    transform: scale(1.1);
+  }
+  .btn {
+    background: linear-gradient(90deg, #00cc33, #0077ff);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    color: #fff;
+    cursor: pointer;
+    font-weight: 600;
+  }
+
+  .btn:hover {
+    transform: scale(1.05);
+  }
+
+  .btn-outline {
+    background: transparent;
+    border: 1px solid #fff;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+  .cart-summary {
+    margin-top: 20px;
+    text-align: right;
+  }
+
+  .empty-cart {
+    text-align: center;
+    margin-top: 30px;
+    color: #aaa;
+  }
+
+  </style>
+</head>
+
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <div class="brand">
+      <img src="Images/Edurefer Logo.png" class="logo-img" alt="Edurefer Logo">
+    </div>
+
+    <div class="nav">
+      <a href="index.html">Home</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="refer.html"> Refer</a>
+      <a href="wallet.html">Wallet</a>
+      <a href="cart.html" class="active">Cart</a>
+      <a href="#" onclick="logout()">Logout</a>
+      <span id="userGreeting" class="greeting"></span>
+    </div>
+  </div>
+</header>
+
+
+<div class="container">
+
+  <div class="card">
+    <h2>🛒 Your Cart</h2>
+
+    <div id="cartItems"></div>
+
+    <div class="empty-cart" id="emptyCart" style="display:none;">
+      Your cart is empty 😅
+    </div>
+
+    <div class="cart-summary">
+      <h3>Total: ₹<span id="cartTotal">0</span></h3>
+      <p style="color:#94a3b8;">Secure payment powered by Razorpay 🔒</p>
+
+      <button class="btn-outline" onclick="clearCart()">Clear</button>
+      <button class="btn" onclick="checkout()">Checkout</button>
+    </div>
+  </div>
+
+</div>
+
+<footer style="text-align:center; padding:20px; color:#aaa;">
+  &copy; 2026 EduRefer. All rights reserved.
+  <a href="terms.html">Terms</a> |
+  <a href="privacy.html">Privacy</a> |
+  <a href="refund.html">Refund</a>
+</footer>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  const username = localStorage.getItem("username") || "User";
+
+  let greet = "Hello";
+  const hour = new Date().getHours();
+
+  if(hour < 12) greet = "Good Morning";
+  else if(hour < 18) greet = "Good Afternoon";
+  else greet = "Good Evening";
+
+  const greetEl = document.getElementById("userGreeting");
+
+  if(greetEl){
+    greetEl.innerText = `👋 ${greet}, ${username}`;
+  }
+
+});
+
+const path = window.location.pathname;
+
+if(path.includes("index")) document.getElementById("nav-home")?.classList.add("active");
+if(path.includes("dashboard")) document.getElementById("nav-dashboard")?.classList.add("active");
+if(path.includes("refer")) document.getElementById("nav-refer")?.classList.add("active");
+if(path.includes("wallet")) document.getElementById("nav-wallet")?.classList.add("active");
+if(path.includes("cart")) document.getElementById("nav-cart")?.classList.add("active");
+
+
+const token = localStorage.getItem("edurefer_token");
+if(!token){
+  alert("Please login first");
+  window.location.href = "login.html";
+}
+
+function getCart(){
+  return JSON.parse(localStorage.getItem("edurefer_cart") || "[]");
+}
+
+function saveCart(cart){
+  localStorage.setItem("edurefer_cart", JSON.stringify(cart));
+}
+
+function clearCart(){
+  localStorage.removeItem("edurefer_cart");
+  renderCart();
+}
+
+function renderCart(){
+
+  const cart = JSON.parse(localStorage.getItem("edurefer_cart") || "[]");
+  const container = document.getElementById("cartItems");
+
+  container.innerHTML = "";
+
+  if(cart.length === 0){
+    container.innerHTML = "<h3>Your cart is empty 😢</h3>";
+    document.getElementById("cartTotal").innerText = 0;
+    return;
+  }
+
+  let total = 0;
+
+  cart.forEach((item, i)=>{
+    total += item.price * (item.quantity || 1);
+
+    container.innerHTML += `
+      <div class="cart-item">
+        <div>
+          <h4>${item.name}</h4>
+          <p>₹${item.price} × ${item.quantity}</p>
+        </div>
+        <div>
+          <button class="cart-btn btn-minus" onclick="changeQty(${i}, -1)">-</button>
+          <button class="cart-btn btn-plus" onclick="changeQty(${i}, 1)">+</button>
+          <button class="cart-btn btn-delete" onclick="removeItem(${i})">❌</button>
+        </div>
+      </div>
+    `;
+  });
+
+  document.getElementById("cartTotal").innerText = total;
+}
+
+function changeQty(i, val){
+  let cart = getCart();
+  cart[i].quantity = (cart[i].quantity || 1) + val;
+
+  if(cart[i].quantity <= 0){
+    cart.splice(i,1);
+  }
+
+  saveCart(cart);
+  renderCart();
+}
+
+function removeItem(i){
+  let cart = getCart();
+  cart.splice(i,1);
+  saveCart(cart);
+  renderCart();
+}
+
+function clearCart(){
+  localStorage.removeItem("edurefer_cart");
+  renderCart();
+}
+
+async function checkout(){
+  let cart = getCart();
+
+  if(cart.length === 0){
+    alert("Cart empty 😅");
+    return;
+  }
+
+  let total = cart.reduce((sum, i)=> sum + i.price*(i.quantity||1),0);
+
+  // ✅ STEP 1: Create order FIRST
+  const res = await fetch("/api/create-order", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ amount: total * 100 })
+  });
+
+  const order = await res.json();
+
+  if(!order.id){
+    alert("Something went wrong 😢");
+    return;
+  }
+
+  // ✅ STEP 2: Use order in Razorpay
+  const options = {
+    key: "rzp_test_Si41deSJCQSby2",
+    amount: order.amount,
+    currency: "INR",
+    order_id: order.id, // 🔥 MOST IMPORTANT
+
+    name: "EduRefer",
+    description: "Product Purchase",
+
+    handler: async function (response) {
+
+      // 🔐 VERIFY PAYMENT
+    const verifyRes = await fetch("/api/verify-payment", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(response)
+    });
+
+    const result = await verifyRes.json();
+
+    if(result.status === "success"){
+      alert("Payment Successful ✅");
+      localStorage.removeItem("edurefer_cart");
+      window.location.href = "dashboard.html";
+    }else{
+      alert("Payment verification failed ❌");
+    }
+    }
+  };
+
+  const rzp = new Razorpay(options);
+  rzp.open();
+}
+
+function logout(){
+  localStorage.clear();
+  window.location.href = "login.html";
+}
+
+renderCart();
+</script>
+
+</body>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</html>

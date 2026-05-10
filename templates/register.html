@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
+    <title>Register - EduRefer</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+    <div class="form-box">
+            <div class="logo-top">
+            <img src="Images/Edurefer Logo.png" alt="logo" class="logo-img" alt="Edurefer Logo">
+            <h2>Register</h2>
+            </div>
+        <form id="registerForm">
+            <div class="input-box">
+                <input id="username" type="text" placeholder="Username" required>
+            </div>
+            <div class="input-box">
+                <input id="email" type="email" placeholder="Email" required>
+            </div>
+            <div class="input-box">
+                <input id="password" type="password" placeholder="Password" required>
+            </div>
+            <div class="input-box">
+                <button type="submit" class="btn">Register</button>
+            </div>
+                <label style="font-size:14px;">
+                    <input type="checkbox" id="terms" required>
+                    I agree to 
+                    <a href="#" onclick="openModal('terms')" target="_blank">Terms</a> |
+                    <a href="#" onclick="openModal('privacy')" target="_blank">Privacy Policy</a> |
+                    <a href="#" onclick="openModal('refund')" target="_blank">Refund Policy</a>
+                </label>
+        </form>
+        <p>
+        <div id="modal" class="modal">
+        <div class="modal-box">
+            <button onclick="closeModal()" class="close-btn">❌</button>
+            <div id="modalContent" class="modal-content"></div>
+        </div>
+</div>
+            Already have an account?
+            <a href="#" onclick="goToLogin()">Login</a>   
+        </p>
+    </div>
+</div>
+
+    <script src="config.js"></script>
+    <script src="auth.js"></script>
+<script>
+
+const params = new URLSearchParams(window.location.search);
+const ref = params.get("ref");
+
+if(ref){
+  localStorage.setItem("referrer", ref);
+}
+
+const referrer = localStorage.getItem("referrer"); // 🔥 ADD THIS
+
+async function openModal(type){
+  document.getElementById("modal").style.display = "flex";
+  
+  let page = "";
+
+  if(type === "terms") page = "terms.html";
+  if(type === "privacy") page = "privacy.html";
+  if(type === "refund") page = "refund.html";
+
+  const res = await fetch(page);
+  const html = await res.text();
+
+  document.getElementById("modalContent").innerHTML = html;
+}
+
+function closeModal(){
+  document.getElementById("modal").style.display = "none";
+}
+
+
+window.addEventListener("DOMContentLoaded", () => {
+    document.body.classList.add("fade-in");
+});
+
+// ✅ smooth redirect
+function smoothRedirect(url){
+    document.body.classList.add("fade-out");
+
+    setTimeout(() => {
+        window.location.href = url;
+    }, 400);
+}
+
+// ✅ go to login
+function goToLogin(){
+    smoothRedirect("login.html");
+}
+
+// ✅ REGISTER LOGIC
+document.addEventListener('DOMContentLoaded', () => {
+    const registerForm = document.getElementById('registerForm');
+
+    registerForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const username = document.getElementById('username').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value.trim();
+
+        // 🔥 VALIDATION
+        if (!username || !email || !password) {
+            alert("Fill all fields");
+            return;
+        }
+
+        if (!email.includes("@") || !email.includes(".")) {
+            alert("Enter valid email");
+            return;
+        }
+
+        if (username.length < 3 || username.length > 20) {
+            alert("Username must be 3-20 characters");
+            return;
+        }
+
+        const usernameRegex = /^[a-zA-Z0-9_]+$/;
+
+        if (!usernameRegex.test(username)) {
+            alert("Only letters, numbers, underscore allowed");
+            return;
+        }
+
+        if (password.length < 6) {
+            alert("Password must be at least 6 characters");
+            return;
+        }
+
+        // 🔥 API CALL
+        try {
+            const API_BASE = window.API_BASE_URL || '';
+
+            const response = await fetch(`${API_BASE}/api/register`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, email, password })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                alert("Registration Successful ✅");
+                smoothRedirect("login.html");
+            } else {
+                alert(data.error || "Registration failed");
+            }
+
+        } catch (error) {
+            console.error(error);
+            alert("Server error");
+        }
+    });
+});
+</script>
+</body>
+</html>

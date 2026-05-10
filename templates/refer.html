@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Refer & Earn - EduRefer</title>
+
+  <link rel="stylesheet" href="static/styles.css">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* HERO */
+    .refer-hero {
+      text-align: center;
+      padding: 50px 20px;
+    }
+
+    .refer-hero h1 {
+      font-size: 2.5rem;
+      background: linear-gradient(90deg, #00cc33, #0077ff);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* CARD */
+    .refer-card {
+      max-width: 800px;
+      margin: 20px auto;
+      background: rgba(255,255,255,0.05);
+      padding: 25px;
+      border-radius: 16px;
+      backdrop-filter: blur(10px);
+    }
+
+    .referral-box {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .referral-box input {
+      flex: 1;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+    }
+
+    .copy-btn {
+      background: linear-gradient(90deg, #00cc33, #0077ff);
+      border: none;
+      padding: 12px;
+      border-radius: 10px;
+      color: white;
+      cursor: pointer;
+    }
+
+    .copy-btn:hover {
+      transform: scale(1.05);
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 15px;
+    }
+
+    .step {
+      background: rgba(255,255,255,0.05);
+      padding: 15px;
+      border-radius: 10px;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <div class="brand">
+      <img src="Images/Edurefer Logo.png" class="logo-img">
+    </div>
+
+    <div class="nav">
+      <a href="index.html">Home</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="refer.html" class="active">Refer</a>
+      <a href="wallet.html">Wallet</a>
+      <a href="cart.html">Cart</a>
+      <a href="#" onclick="logout()">Logout</a>
+      <span id="userGreeting" class="greeting"></span>
+    </div>
+  </div>
+</header>
+
+<section class="refer-hero">
+  <h1>Invite your Friends. Earn Money 💸</h1>
+  <p>Earn ₹300 per referral. Withdraw after ₹600.</p>
+</section>
+
+<section class="refer-card">
+  <h3>Your Referral Link</h3>
+
+  <div class="referral-box">
+    <input type="text" id="refLink" readonly>
+    <button class="copy-btn" onclick="copyLink()">Copy</button>
+    <button onclick="shareWhatsApp()">Share on WhatsApp</button>
+  </div>
+
+  <p style="margin-top:10px;">💰 ₹300 per referral</p>
+</section>
+
+<section class="refer-card">
+  <div class="steps">
+    <div class="step">🔗 Share Link</div>
+    <div class="step">📘 Friend Buys</div>
+    <div class="step">💸 You Earn</div>
+  </div>
+</section>
+
+<footer style="text-align:center; padding:20px; color:#aaa;">
+  &copy; 2026 EduRefer. All rights reserved.
+  <a href="terms.html">Terms</a> |
+  <a href="privacy.html">Privacy</a> |
+  <a href="refund.html">Refund</a>
+</footer>
+
+<script>
+
+// LOAD DATA
+async function load(){
+  const token = localStorage.getItem("edurefer_token");
+
+  if(!token){
+    window.location="login.html";
+    return;
+  }
+
+  const res = await fetch("/api/me",{
+    headers:{Authorization:token}
+  });
+}
+
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  // ✅ USERNAME GET
+  const username = localStorage.getItem("username") || "User";
+
+  // ✅ GREETING
+  let greet = "Hello";
+  const hour = new Date().getHours();
+
+  if(hour < 12) greet = "Good Morning";
+  else if(hour < 18) greet = "Good Afternoon";
+  else greet = "Good Evening";
+
+  const greetEl = document.getElementById("userGreeting");
+  if(greetEl){
+    greetEl.innerText = `👋 ${greet}, ${username}`;
+  }
+
+  // ✅ REFERRAL LINK
+  const refLinkInput = document.getElementById("refLink");
+
+  if(username){
+    const link = `${window.location.origin}/?ref=${username}`;
+    refLinkInput.value = link;
+  } else {
+    refLinkInput.value = "Login to get your link";
+  }
+
+  // ✅ CAPTURE REFERRAL FROM URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const refUser = urlParams.get("ref");
+
+  if(refUser){
+    localStorage.setItem("referrer", refUser);
+  }
+
+});
+
+function copyLink() {
+  const input = document.getElementById("refLink");
+  input.select();
+  document.execCommand("copy");
+  alert("Link copied 🚀");
+}
+
+const token = localStorage.getItem("edurefer_token");
+  if(token){
+    document.getElementById("nav-login").style.display="none";
+    document.getElementById("nav-logout").style.display="inline-block";
+  }else{
+    document.getElementById("nav-login").style.display="inline-block";
+    document.getElementById("nav-logout").style.display="none";
+  }
+
+  
+// 🔥 CAPTURE REFERRAL FROM URL
+const urlParams = new URLSearchParams(window.location.search);
+const refUser = urlParams.get("ref");
+
+if (refUser) {
+  localStorage.setItem("referrer", refUser);
+}
+
+const path = window.location.pathname;
+
+if(path.includes("index")) document.getElementById("nav-home")?.classList.add("active");
+if(path.includes("dashboard")) document.getElementById("nav-dashboard")?.classList.add("active");
+if(path.includes("wallet")) document.getElementById("nav-wallet")?.classList.add("active");
+if(path.includes("refer")) document.getElementById("nav-refer")?.classList.add("active");
+if(path.includes("cart")) document.getElementById("nav-cart")?.classList.add("active");
+
+// 🔥 WHATSAPP SHARE
+function shareWhatsApp() {
+  const link = document.getElementById("refLink").value;
+
+  const message = `🚀 Join EduRefer & Earn Money!\nUse my referral link:\n${link}`;
+
+  window.open(`https://wa.me/?text=${encodeURIComponent(message)}`);
+}
+
+// 🔥 LOGOUT
+function logout(){
+  localStorage.clear();
+  window.location.href = "login.html";
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Dashboard</title>
+
+  <link rel="stylesheet" href="static/styles.css">
+  <link rel="stylesheet" href="static/dashboard.css">
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    .grid {
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:20px;
+    }
+
+    .card {
+      background:rgba(255,255,255,0.05);
+      padding:20px;
+      border-radius:12px;
+    }
+
+    .button {
+      background:linear-gradient(90deg,#00cc33,#0077ff);
+      padding:10px;
+      border:none;
+      border-radius:8px;
+      color:white;
+      cursor:pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <div class="brand">
+      <img src="Images/Edurefer Logo.png" class="logo-img" alt="Edurefer Logo">
+    </div>
+
+    <div class="nav">
+      <a href="index.html">Home</a>
+      <a href="dashboard.html" class="active">Dashboard</a>
+      <a href="refer.html"> Refer</a>
+      <a href="wallet.html">Wallet</a>
+      <a href="cart.html">Cart</a>
+      <a href="#" onclick="logout()">Logout</a>
+      <span id="userGreeting" class="greeting"></span>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+<section class="hero">
+
+<div class="card" style="margin-top:20px;">
+  <h3>📊 Recent Activity</h3>
+  <ul id="activityList" class="activity-list"></ul>
+</div>
+
+<div class="grid">
+
+<div class="card">
+<h3>Balance</h3>
+<h1 id="balance">₹0</h1>
+</div>
+
+<div class="card">
+<h3>Referrals</h3>
+<h1 id="referrals">0</h1>
+</div>
+
+<div class="card">
+<h3>Earnings</h3>
+<h1 id="earnings">₹0</h1>
+</div>
+
+</div>
+
+<div class="card" style="margin-top:20px;">
+  <h3>🔥 Featured Products</h3>
+
+  <div class="products-grid">
+
+    <div class="product-card">
+      <img src="Images/career_start_kit.jpg" alt="Career Starter Kit">
+      <div class="product-info">
+        <h3>Career Starter Kit</h3>
+        <p>Resume + Roadmap</p>
+        <h2>₹500</h2>
+        <button onclick="addToCart('Career Starter Kit',500)">Add to Cart</button>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <img src="Images/career_switch_kit.jpg" alt="Career Switch Kit" alt="Career Switch Kit">
+      <div class="product-info">
+        <h3>Job Switch Kit</h3>
+        <p>Switch to high salary job</p>
+        <h2>₹500</h2>
+        <button onclick="addToCart('Job Switch Kit',500)">Add to Cart</button>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <img src="Images/freshers_kit.jpg" alt="Freshers Kit">
+      <div class="product-info">
+        <h3>Freshers Kit</h3>
+        <p>Get your first job</p>
+        <h2>₹500</h2>
+        <button onclick="addToCart('Freshers Kit',500)">Add to Cart</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="card" style="margin-top:20px;">
+<h3>Transactions</h3>
+<ul id="txnList"></ul>
+<br>
+<button class="button" onclick="withdraw()">Withdraw</button>
+</div>
+
+</section>
+</main>
+
+<footer style="text-align:center; padding:20px; color:#aaa;">
+  &copy; 2026 EduRefer. All rights reserved.
+  <a href="terms.html">Terms</a> |
+  <a href="privacy.html">Privacy</a> |
+  <a href="refund.html">Refund</a>
+</footer>
+
+<script>
+
+const refInput = document.getElementById("refLink");
+if(refInput){
+  refInput.value = location.origin + "?ref=" + data.username;
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  const username = localStorage.getItem("username") || "User";
+
+  let greet = "Hello";
+  const hour = new Date().getHours();
+
+  if(hour < 12) greet = "Good Morning";
+  else if(hour < 18) greet = "Good Afternoon";
+  else greet = "Good Evening";
+
+  const greetEl = document.getElementById("userGreeting");
+
+  if(greetEl){
+    greetEl.innerText = `👋 ${greet}, ${username}`;
+  }
+
+});
+
+// LOAD DATA
+async function load(){
+
+  const token = localStorage.getItem("edurefer_token");
+
+  const res = await fetch("/api/me", {
+    headers: { Authorization: token }
+  });
+
+  const data = await res.json();
+
+  document.getElementById("balance").innerText = "₹" + data.balance;
+  document.getElementById("referrals").innerText = data.referrals || 0;
+}
+
+function addToCart(name, price){
+  let cart = JSON.parse(localStorage.getItem("edurefer_cart")) || [];
+
+  const existing = cart.find(i => i.name === name);
+
+  if(existing){
+    existing.quantity = (existing.quantity || 1) + 1;
+  } else {
+    cart.push({name, price, quantity:1});
+  }
+
+  localStorage.setItem("edurefer_cart", JSON.stringify(cart));
+
+  alert(name + " added to cart 🛒");
+}
+
+async function withdraw(){
+  const res = await fetch("/api/withdraw",{method:"POST",headers:{Authorization:token}});
+  const data = await res.json();
+
+  alert(data.message || data.error);
+}
+
+function copy(){
+  const i=document.getElementById("refLink");
+  i.select();
+  document.execCommand("copy");
+}
+
+const activities = [
+  { icon: "✅", text: "Account created", time: "Just now" },
+  { icon: "💰", text: "Wallet initialized", time: "1 min ago" },
+  { icon: "🎯", text: "Referral system ready", time: "2 min ago" }
+];
+
+async function loadActivities(){
+  const res = await fetch("/api/activity", {
+    headers: {
+      "Authorization": localStorage.getItem("edurefer_token")
+    }
+  });
+
+  const data = await res.json();
+
+  const list = document.getElementById("activityList");
+  list.innerHTML = "";
+
+  data.forEach(a => {
+
+    let icon = "📌";
+
+    if(a.type === "REFERRAL") icon = "💰";
+    if(a.type === "PURCHASE") icon = "🛒";
+    if(a.type === "WITHDRAW") icon = "🏧";
+
+    list.innerHTML += `
+      <li class="activity-item">
+        <span class="activity-icon">${icon}</span>
+        <span class="activity-text">${a.text}</span>
+        <span class="activity-time">${a.time}</span>
+      </li>
+    `;
+  });
+}
+
+async function loadTransactions(){
+  const res = await fetch("/api/transactions", {
+    headers: {
+      "Authorization": localStorage.getItem("edurefer_token")
+    }
+  });
+
+  const data = await res.json();
+
+  const list = document.getElementById("txnList");
+  list.innerHTML = "";
+
+  data.forEach(tx => {
+
+    const color = tx.amount.startsWith("+") ? "#00ff99" : "#ff4d4d";
+
+    list.innerHTML += `
+      <li style="display:flex; justify-content:space-between; padding:8px 0;">
+        <span>${tx.note}</span>
+        <span style="color:${color}; font-weight:bold;">
+          ${tx.amount}
+        </span>
+      </li>
+    `;
+  });
+}
+
+loadActivities();
+loadTransactions();
+
+const path = window.location.pathname;
+
+if(path.includes("index")) document.getElementById("nav-home")?.classList.add("active");
+if(path.includes("dashboard")) document.getElementById("nav-dashboard")?.classList.add("active");
+if(path.includes("refer")) document.getElementById("nav-refer")?.classList.add("active");
+if(path.includes("wallet")) document.getElementById("nav-wallet")?.classList.add("active");
+if(path.includes("cart")) document.getElementById("nav-cart")?.classList.add("active");
+
+// 🔥 LOGOUT
+function logout(){
+  localStorage.clear();
+  window.location.href = "login.html";
+}
+
+load();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - EduRefer</title>
+
+    <title>EduRefer - Earn ₹300 Per Referral</title>
+
+    <meta name="description" content="Earn real money by referring EduRefer digital career kits.">
+
+    <meta name="keywords" content="edurefer, referral earning, digital products, career kits">
+
+    <meta name="author" content="EduRefer">
+
+    <meta property="og:title" content="EduRefer">
+
+    <meta property="og:description" content="Earn ₹300 per referral">
+
+    <meta property="og:type" content="website">
+    <link rel="stylesheet" href="static\login.css">
+</head>
+
+<body>
+<div id="loader">
+  Loading...
+</div>
+
+<main>
+<div class="container">
+
+    <!-- LOGIN FORM -->
+    <div class="logo-top">
+      <img src="Images/Edurefer Logo.png" alt="Edurefer Logo" class="logo-img">
+    </div>
+    <div class="form-box Login">
+        <h2 class="animation">Login</h2>
+
+        <form id="loginForm">
+
+            <div class="input-box animation">
+                <label for="username">Username</label>
+                <input id="username" type="text" placeholder="Username" required>
+            </div>
+
+            <div class="input-box animation">
+                <label for="password">Password</label>
+                <input id="password" type="password" placeholder="Password" required>
+            </div>
+
+            <button type="submit" class="login-btn" style="margin-top: 10px;">Login</button>
+
+        </form>
+
+        <p class="regi-link">
+          Don't have an account?
+            <a href="#" onclick="goToRegister()">Register</a>
+        </p>
+    </div>
+<footer class="footer">
+
+    <p>© 2026 EduRefer</p>
+
+    <div class="footer-links">
+
+    <a href="terms.html">Terms</a>
+    <a href="privacy.html">Privacy</a>
+    <a href="refund.html">Refund</a>
+
+    </div>
+</footer>
+</div>
+</main>
+<script src="config.js"></script>
+<script src="auth.js"></script>
+
+<script>
+
+/* LOADER */
+window.onload = () => {
+  document.getElementById("loader").style.display = "none";
+}
+
+/* SMOOTH REDIRECT */
+function smoothRedirect(url){
+
+  document.body.classList.add("fade-out");
+
+  setTimeout(() => {
+    window.location.href = url;
+  }, 400);
+}
+
+/* PAGE LOAD */
+window.addEventListener("load", () => {
+  document.body.classList.add("loaded");
+});
+
+/* GO TO REGISTER */
+function goToRegister(){
+
+  smoothRedirect("register.html");
+
+}
+
+/* LOGIN */
+document.getElementById("loginForm")
+.addEventListener("submit", async (e) => {
+
+    e.preventDefault();
+
+    const username =
+    document.getElementById("username").value;
+
+    const password =
+    document.getElementById("password").value;
+
+    try{
+
+        const response = await fetch("/api/login", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+                username,
+                password
+            })
+        });
+
+        const data = await response.json();
+
+        if(response.ok){
+
+            localStorage.setItem(
+                "edurefer_token",
+                data.token
+            );
+
+            localStorage.setItem(
+                "username",
+                username
+            );
+
+            smoothRedirect("dashboard.html");
+
+        }else{
+
+            alert(data.error || "Login failed");
+
+        }
+
+    }catch(err){
+
+        console.log(err);
+
+        alert("Server error");
+
+    }
+
+});
+</script>
+
+</body>
+</html>

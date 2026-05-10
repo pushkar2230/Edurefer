@@ -1,0 +1,223 @@
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduRefer</title>
+    <meta name="description" content="Earn ₹300 per referral with EduRefer digital career kits.">
+    <link rel="stylesheet" href="static/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+      body {
+        margin:0;
+        font-family:'Poppins';
+        background:linear-gradient(135deg,#0f172a,#020617);
+        color:white;
+      }
+
+      header {
+        background:linear-gradient(90deg,#00cc33,#0077ff);
+        padding:15px 40px;
+        display:flex;
+        justify-content:space-between;
+      }
+
+      nav a {
+        color:white;
+        margin-left:20px;
+        text-decoration:none;
+      }
+
+      .products {
+        display:grid;
+        grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+        gap:20px;
+        padding:30px;
+      }
+
+      .card {
+        background:rgba(255,255,255,0.05);
+        padding:20px;
+        border-radius:15px;
+        text-align:center;
+        transition:0.3s;
+      }
+
+      .card:hover {
+        transform:translateY(-6px);
+      }
+
+      .button {
+        background:linear-gradient(90deg,#00cc33,#0077ff);
+        padding:10px 20px;
+        border:none;
+        border-radius:10px;
+        color:white;
+        cursor:pointer;
+      }
+    </style>
+  </head>
+
+  <body>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <img src="Images/Edurefer Logo.png" class="logo-img" alt="Edurefer Logo">
+      </div>
+
+      <div class="nav">
+        <a href="index.html" class="active">Home</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="refer.html"> Refer</a>
+        <a href="wallet.html">Wallet</a>
+        <a href="cart.html">Cart</a>
+        <a href="login.html" >Login / Register</a>
+      </div>
+    </div>
+  </header>
+  <main class="container">
+
+  <section class="hero">
+
+  <h1>
+  Earn ₹300 Per Referral 🚀
+  </h1>
+
+  <p>
+  Buy once. Share unlimited. Earn directly to your UPI.
+  </p>
+
+  <div class="hero-buttons">
+
+  <button class="button">
+  Start Earning
+  </button>
+
+  <a href="#products" class="hero-button button">
+  View Products
+  </a>
+
+  </div>
+
+  </section>
+
+  <section class="products" id="products">
+
+  <div class="card">
+  <img src="Images/career_start_kit.jpg" class="product-img" width="400" height="220" alt="Career Starter Kit">
+  <h3>Career Starter Kit</h3>
+  <p>Resume + Roadmap</p>
+  <h2>₹500</h2>
+  <button class="button" onclick="buy()">Buy Now</button>
+  </div>
+
+  <div class="card">
+  <img src="Images/career_switch_kit.jpg" class="product-img" width="400" height="220" alt="Career Switch Kit">
+  <h3>Job Switch Kit</h3>
+  <p>Switch to high salary job</p>
+  <h2>₹500</h2>
+  <button class="button" onclick="buy()">Buy Now</button>
+  </div>
+
+  <div class="card">
+  <img src="Images/freshers_kit.jpg" class="product-img" width="400" height="220" alt="Freshers Kit">
+  <h3>Freshers Kit</h3>
+  <p>Get your first job</p>
+  <h2>₹500</h2>
+  <button class="button" onclick="buy()">Buy Now</button>
+  </div>
+
+  </section>
+
+  <!-- TRUST SECTION -->
+
+  <section class="trust-box">
+
+  <h2>Why Choose EduRefer?</h2>
+
+  <div class="trust-grid">
+
+  <div>
+  ✅ Instant Digital Access
+  </div>
+
+  <div>
+  💸 UPI Withdrawals
+  </div>
+
+  <div>
+  🔒 Secure Payments
+  </div>
+
+  <div>
+  🚀 Unlimited Referrals
+  </div>
+
+  </div>
+
+  </section>
+
+  <!-- FAQ SECTION -->
+
+  <section class="faq">
+
+  <h2>Frequently Asked Questions</h2>
+
+  <div class="faq-item">
+  <h3>How do referrals work?</h3>
+  <p>You earn ₹300 when someone purchases using your referral.</p>
+  </div>
+
+  <div class="faq-item">
+  <h3>When can I withdraw?</h3>
+  <p>Minimum withdrawal amount is ₹600.</p>
+  </div>
+
+  <div class="faq-item">
+  <h3>How do I receive payment?</h3>
+  <p>Payments are sent directly to your UPI ID.</p>
+  </div>
+
+  </section>
+  </main>
+  <footer style="text-align:center; padding:20px; color:#aaa;">
+    &copy; 2026 EduRefer. All rights reserved.
+    <a href="terms.html" target="_blank">Terms</a> |
+    <a href="privacy.html" target="_blank">Privacy</a> |
+    <a href="refund.html" target="_blank">Refund</a>
+  </footer>
+
+  <script>
+  const path = window.location.pathname;
+
+  if(path.includes("index")) document.getElementById("nav-home")?.classList.add("active");
+  if(path.includes("dashboard")) document.getElementById("nav-dashboard")?.classList.add("active");
+  if(path.includes("wallet")) document.getElementById("nav-wallet")?.classList.add("active");
+  if(path.includes("cart")) document.getElementById("nav-cart")?.classList.add("active");
+
+  function buy(){
+    const token = localStorage.getItem("edurefer_token");
+
+    if(!token){
+      alert("Login First");
+      window.location="login.html";
+      return;
+    }
+
+    window.location="cart.html";
+  }
+
+  // ✅ smooth redirect
+  function smoothRedirect(url){
+      document.body.classList.add("fade-out");
+
+      setTimeout(() => {
+          window.location.href = url;
+      }, 400);
+  }
+  </script>
+
+  </body>
+  </html>

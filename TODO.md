@@ -1,0 +1,4 @@
+- [x] Update User model in backend/app.py to include email field
+- [x] Modify /api/register endpoint to accept and validate email
+- [x] Update login.js to send email in registration request
+- [x] Test registration functionality (API endpoints returned 404, possibly due to server/DB issues not related to changes)
