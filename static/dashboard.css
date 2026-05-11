@@ -1,5 +1,5 @@
 /* ===== CONTAINER ===== */
-.dashboard-container {
+/*.dashboard-container {
   width: 100%;
   max-width: 1100px;
   margin: 30px auto;
@@ -10,39 +10,117 @@
   backdrop-filter: blur(15px);
   box-shadow: 0 25px 60px rgba(0,0,0,0.6);
   border: 1px solid rgba(255,255,255,0.1);
-}
+}*/
 
-/* ===== GRID ===== */
-.dashboard-grid {
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  gap: 20px;
-}
+/* ===== PRODUCTS GRID ===== */
 
-.product-grid{
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 25px;
-}
-
-.products{
+.products-grid{
     display:flex;
-    flex-wrap:wrap;
+
     justify-content:center;
-    gap:25px;
+
+    flex-wrap:wrap;
+
+    gap:30px;
+
+    margin-top:30px;
 }
+
+/* ===== PRODUCT CARD ===== */
 
 .product-card{
     width:320px;
-    max-width:100%;
+
     background:rgba(255,255,255,0.05);
+
+    border-radius:20px;
+
+    overflow:hidden;
 
     backdrop-filter:blur(10px);
 
     border:1px solid rgba(255,255,255,0.08);
 
-    box-shadow:
-    0 0 20px rgba(0,0,0,0.2);
+    transition:0.3s;
+}
+
+.product-card:hover{
+    transform:translateY(-6px);
+}
+
+/* ===== IMAGE ===== */
+
+.product-card img{
+    width:100%;
+
+    height:220px;
+
+    object-fit:cover;
+}
+
+/* ===== CONTENT ===== */
+
+.product-info{
+    padding:22px;
+    align-content:wrap;
+    text-align:center;
+}
+
+.product-info h3{
+    font-size:34px;
+    margin-bottom:12px;
+}
+
+.product-info p{
+    color:#cbd5e1;
+    margin-bottom:18px;
+}
+
+.product-info h2{
+    font-size:48px;
+    margin-bottom:20px;
+}
+
+/* ===== DASHBOARD STATS ===== */
+
+/* ===== DASHBOARD STATS ===== */
+
+.stats-grid{
+  display:flex;
+  justify-content:center;
+  gap:25px;
+  flex-wrap:wrap;
+  margin-top:40px;
+}
+
+/* ===== STAT CARD ===== */
+
+.stat-card{
+  width:240px;
+  background:rgba(255,255,255,0.06);
+  border-radius:20px;
+  padding:35px 25px;
+  text-align:center;
+  min-height:220px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  transition:0.3s;
+}
+
+.stat-card:hover{
+    transform:translateY(-5px);
+}
+
+.stat-card h2{
+    font-size:32px;
+    margin-bottom:18px;
+}
+
+.stat-card p{
+    font-size:52px;
+    font-weight:700;
 }
 
 @media screen and (max-width:768px){
@@ -76,12 +154,20 @@
 
 
 /* ===== CARDS ===== */
+/* ===== CARDS ===== */
+
 .card {
   background: rgba(255,255,255,0.05);
-  padding: 20px;
-  border-radius: 12px;
+  padding: 25px;
+  border-radius: 20px;
   backdrop-filter: blur(10px);
   transition: 0.3s;
+  text-align:center;
+  min-height:auto;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+  align-items:stretch;
 }
 
 .card:hover {

@@ -3,12 +3,11 @@ import uuid
 from datetime import datetime
 import flask
 import flask_cors
-from sqlalchemy.engine.base import Engine
 from sqlalchemy.sql.functions import user
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy import create_engine, Column, Integer, String, Float, DateTime, ForeignKey
-from sqlalchemy.orm import sessionmaker, declarative_base
-import razorpay 
+from sqlalchemy.orm import declarative_base, sessionmaker
+import razorpay
 import re
 import smtplib
 
@@ -27,17 +26,28 @@ def is_valid_email(email):
     return re.match(regex, email)
 
 # DB Setup
+# DB Setup
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
-DATABASE_URL = os.environ.get('DATABASE_URL') or f"sqlite:///{os.path.join(BASE_DIR, 'db.sqlite3')}"
 
-engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False} if "sqlite" in DATABASE_URL else {})
+DATABASE_URL = os.getenv(
+    "DATABASE_URL",
+    f"sqlite:///{os.path.join(BASE_DIR, 'db.sqlite3')}"
+)
+
+engine = create_engine(
+    DATABASE_URL,
+    connect_args={"check_same_thread": False}
+    if "sqlite" in DATABASE_URL else {}
+)
+
 SessionLocal = sessionmaker(bind=engine)
+
 Base = declarative_base()
 
 from email.mime.text import MIMEText
 
-EMAIL = "yourgmail@gmail.com"
-PASSWORD = "your_app_password"   # ⚠️ not normal password
+EMAIL = os.getenv("EMAIL")
+PASSWORD = os.getenv("EMAIL_PASSWORD")# ⚠️ not normal password
 
 def send_email(to_email, subject, body):
     try:
@@ -90,8 +100,6 @@ class Transaction(Base):
     note = Column(String)
     created_at = Column(DateTime, default=datetime.utcnow)
 
-Base = declarative_base()
-
 Base.metadata.create_all(bind=engine)
 
 RAZORPAY_KEY = os.getenv("RAZORPAY_KEY")
@@ -106,7 +114,7 @@ app = flask.Flask(
     template_folder="templates",
     static_folder="static"
 )
-app.config["SECRET_KEY"] = os.environ.get("LLimVI4cTD0tmLYR2tw4O4rL", "secret")
+app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "secret")
 flask_cors.CORS(app)
 
 # Helpers
@@ -116,7 +124,7 @@ def get_user(token, db):
 # Routes
 @app.route("/")
 def home():
-    return flask.render_template("index.html")
+    return flask.render_template("templates/index.html")
 
 @app.route("/<path:path>")
 def serve_static_pages(path):
@@ -370,7 +378,11 @@ def activity():
     return result
 
 # Withdraw via UPI
-client = razorpay.Client(auth=("rzp_test_Si41deSJCQSby2", "LLimVI4cTD0tmLYR2tw4O4rL"))
+client = razorpay.Client(
+    auth=(RAZORPAY_KEY, RAZORPAY_SECRET)
+)
+
+client = razorpay_client
 
 # Verify Payment and Reward
 @app.route("/api/verify-payment", methods=["POST"])
