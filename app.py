@@ -1,3 +1,4 @@
+import dbm
 import os
 import uuid
 from datetime import datetime
@@ -216,13 +217,18 @@ def register():
         referred_by=ref_user.id if ref_user else None
     )
 
-
     try:
         db.add(user)
         db.commit()
-    except:
+
+    except Exception as e:
         db.rollback()
-        return {"error": "Registration failed"}, 500
+
+        print(e)
+
+        return {
+            "error": str(e)
+        }, 500
 
     return {"ok": True}
 
