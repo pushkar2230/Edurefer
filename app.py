@@ -213,7 +213,7 @@ def register():
         token=str(uuid.uuid4()),
         balance=0,
         referrals=0,          # 🔥 ADD
-        hasPurchased=False,   # 🔥 ADD
+        hasPurchased=0,   # 🔥 ADD
         referred_by=ref_user.id if ref_user else None
     )
 
