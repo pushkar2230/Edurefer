@@ -124,7 +124,7 @@ def get_user(token, db):
 # Routes
 @app.route("/")
 def home():
-    return flask.render_template("templates/index.html")
+    return flask.render_template("index.html")
 
 @app.route("/<path:path>")
 def serve_static_pages(path):

@@ -81,7 +81,14 @@
     margin-bottom:20px;
 }
 
-/* ===== DASHBOARD STATS ===== */
+.product-card.disabled{
+    opacity:0.7;
+}
+
+.product-card.disabled button{
+    background:#555 !important;
+    cursor:not-allowed;
+}
 
 /* ===== DASHBOARD STATS ===== */
 
