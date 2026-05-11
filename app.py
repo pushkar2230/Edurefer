@@ -34,8 +34,9 @@ DATABASE_URL = os.getenv(
     f"sqlite:///{os.path.join(BASE_DIR, 'db.sqlite3')}"
 )
 
-engine = create_engine(
+engine = create_engine (
     DATABASE_URL,
+    pool_pre_ping=True,
     connect_args={"check_same_thread": False}
     if "sqlite" in DATABASE_URL else {}
 )
@@ -47,7 +48,7 @@ Base = declarative_base()
 from email.mime.text import MIMEText
 
 EMAIL = os.getenv("EMAIL")
-PASSWORD = os.getenv("EMAIL_PASSWORD")# ⚠️ not normal password
+PASSWORD = os.getenv("EMAIL_PASSWORD")
 
 def send_email(to_email, subject, body):
     try:
