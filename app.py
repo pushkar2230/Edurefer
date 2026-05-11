@@ -11,11 +11,11 @@ import razorpay
 import re
 import smtplib
 
-DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///edurefer.db")
+DATABASE_URL = os.getenv("DATABASE_URL")
 
-Engine = create_engine(DATABASE_URL, pool_pre_ping=True)
+engine = create_engine(DATABASE_URL, pool_pre_ping=True)
 
-SessionLocal = sessionmaker(bind=Engine)
+SessionLocal = sessionmaker(bind=engine)
 
 def is_valid_username(username):
     regex = r'^[a-zA-Z0-9_]{3,20}$'
