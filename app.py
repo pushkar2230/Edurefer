@@ -235,17 +235,30 @@ def register():
 # Razorpay Order Creation
 @app.route("/api/create-order", methods=["POST"])
 def create_order():
-    body = flask.request.json
-    amount = body.get("amount")  # frontend se aayega
 
-    order = razorpay_client.order.create({
-        "amount": amount,
-        "currency": "INR",
-        "receipt": str(uuid.uuid4())
-    })
+    try:
+        body = flask.request.json
 
-    return flask.jsonify(order)
+        amount = body.get("amount")
 
+        # Razorpay paise me leta hai
+        amount = int(amount)
+
+        order = razorpay_client.order.create({
+            "amount": amount,
+            "currency": "INR",
+            "receipt": str(uuid.uuid4()),
+            "payment_capture": 1
+        })
+
+        return flask.jsonify(order)
+
+    except Exception as e:
+        print(e)
+
+        return {
+            "error": str(e)
+        }, 500
 
 @app.route("/api/payout", methods=["POST"])
 def payout():

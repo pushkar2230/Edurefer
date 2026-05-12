@@ -302,7 +302,7 @@ async function checkout(){
 
   // ✅ STEP 2: Use order in Razorpay
   const options = {
-    key: "rzp_test_Si41deSJCQSby2",
+    key: "rzp_test_So74dSYKK1RhZD",
     amount: order.amount,
     currency: "INR",
     order_id: order.id, // 🔥 MOST IMPORTANT
@@ -332,6 +332,17 @@ async function checkout(){
   };
 
   const rzp = new Razorpay(options);
+
+  rzp.on("payment.failed", function (response){
+
+      console.log(response.error);
+
+      alert(
+          "Payment Failed ❌\n\n" +
+          response.error.description
+      );
+  });
+
   rzp.open();
 }
 
