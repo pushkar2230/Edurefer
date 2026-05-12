@@ -32,7 +32,6 @@ body{
 }
 
 /* ===== HEADER ===== */
-/* ===== HEADER ===== */
 
 .site-header{
     width:100%;
@@ -58,14 +57,18 @@ body{
 .brand{
     display:flex;
     align-items:center;
+    justify-content:center;
     gap:12px;
 }
 
 /* LOGO */
 .logo-img{
-    height:52px;
+    height:85px;
     width:auto;
     object-fit:contain;
+
+    transform:scale(2.2);
+    transform-origin:left center;
 }
 
 /* NAVBAR */
@@ -343,6 +346,7 @@ footer a{
     /* BIG MOBILE LOGO */
     .logo-img{
         height:95px;
+        transform:scale(2.8);
     }
 
     .nav{
