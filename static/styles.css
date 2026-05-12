@@ -32,63 +32,48 @@ body{
 }
 
 /* ===== HEADER ===== */
+/* ===== HEADER ===== */
 
 .site-header{
     width:100%;
     background:linear-gradient(90deg,#00cc33,#0077ff);
-    padding:12px 20px;
+    padding:10px 20px;
     position:sticky;
     top:0;
     z-index:1000;
 }
 
+/* DESKTOP HEADER */
 .header-inner{
     max-width:1250px;
     margin:auto;
 
     display:flex;
     align-items:center;
-    justify-content:center;
+    justify-content:space-between;
 
     padding:0 20px;
-
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    gap:15px;
 }
-
-/* ===== LOGO ===== */
 
 .brand{
     display:flex;
     align-items:center;
+    gap:12px;
 }
 
+/* LOGO */
 .logo-img{
-    height: 70px;
+    height:52px;
     width:auto;
     object-fit:contain;
-    display:flex;
-    align-items: center;
 }
 
-/* NAV */
-.nav{
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:center;
-    gap:18px;
-}
-
-/* ===== NAVBAR ===== */
-
+/* NAVBAR */
 .nav{
     display:flex;
     align-items:center;
     gap:28px;
     flex-wrap:wrap;
-    min-height:90px;
 }
 
 .nav a{
@@ -96,9 +81,7 @@ body{
     text-decoration:none;
     font-size:18px;
     font-weight:500;
-
     position:relative;
-
     transition:0.3s ease;
 }
 
@@ -347,17 +330,19 @@ footer a{
 @media(max-width:768px){
 
     .site-header{
-        padding:18px 0;
+        padding:16px 0;
     }
 
     .header-inner{
         flex-direction:column;
-        gap:18px;
+        justify-content:center;
+        align-items:center;
+        gap:16px;
     }
 
+    /* BIG MOBILE LOGO */
     .logo-img{
-        height:90px;
-        width:auto;
+        height:95px;
     }
 
     .nav{
@@ -367,7 +352,8 @@ footer a{
 
     .nav a{
         font-size:15px;
-    }
+     font-size:15px;
+    } 
 
     .hero{
         padding-top:60px;
