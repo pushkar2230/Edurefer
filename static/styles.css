@@ -218,7 +218,7 @@ button:hover,
 }
 
 .trust-grid div{
-    background:linear-gradient(135deg,rgba(255,255,255,0.9),rgba(239,246,255,0.85));
+    background:linear-gradient(135deg,rgba(4, 222, 36, 0.765),rgb(6, 117, 243));
     border-radius:16px;
     padding:24px;
     box-shadow:0 2px 12px rgba(0,0,0,0.05);
