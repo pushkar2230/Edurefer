@@ -7,17 +7,24 @@
 }
 
 :root{
-    --primary:#2563eb;
-    --text:#111827;
-    --muted:#6b7280;
+    --primary:#2563eb;      /* educational blue */
+    --secondary:#10b981;    /* educational green */
+    --accent:#38bdf8;       /* soft sky blue */
+
     --bg:#f5f7fb;
+    --bg-soft:#eef4ff;
+
     --card:#ffffff;
-    --border:#e5e7eb;
+
+    --text:#0f172a;
+    --muted:#64748b;
+
+    --border:#dbeafe;
 }
 
 body{
     font-family:'Poppins',sans-serif;
-    background:var(--bg);
+    background:linear-gradient(180deg,#f8fbff 0%,#eef6ff 100%);
     color:var(--text);
     overflow-x:hidden;
     line-height:1.6;
@@ -36,8 +43,8 @@ body{
 
 .site-header{
     width:100%;
-    background:#fff;
-    border-bottom:1px solid var(--border);
+    background:rgba(255,255,255,0.75);
+    backdrop-filter:blur(8px);
     position:sticky;
     top:0;
     z-index:1000;
@@ -99,6 +106,7 @@ body{
 /* ===== HERO ===== */
 
 .hero{
+    background:linear-gradient(135deg,#eff6ff,#f0fdf4);
     text-align:center;
     padding:80px 20px;
 }
@@ -122,7 +130,7 @@ body{
 button,
 .button{
     display:inline-block;
-    background:var(--primary);
+    background:linear-gradient(90deg,#10b981,#2563eb);
     color:white;
     border:none;
     border-radius:10px;
@@ -152,7 +160,9 @@ button:hover,
 /* ===== CARD ===== */
 
 .card{
-    background:var(--card);
+    background:rgba(255,255,255,0.75);
+    border:1px solid rgba(255,255,255,0.5);
+    box-shadow:0 10px 30px rgba(15,23,42,0.06);
     border-radius:18px;
     padding:20px;
     box-shadow:0 4px 20px rgba(0,0,0,0.06);
@@ -208,7 +218,7 @@ button:hover,
 }
 
 .trust-grid div{
-    background:white;
+    background:linear-gradient(135deg,rgba(255,255,255,0.9),rgba(239,246,255,0.85));
     border-radius:16px;
     padding:24px;
     box-shadow:0 2px 12px rgba(0,0,0,0.05);
