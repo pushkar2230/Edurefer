@@ -3,6 +3,7 @@
     padding:0;
     box-sizing:border-box;
     scroll-behavior:smooth;
+    -webkit-tap-highlight-color: transparent;
 }
 
 :root{
@@ -17,8 +18,8 @@
 
 body{
     font-family:'Poppins',sans-serif;
-    background:linear-gradient(135deg,var(--bg-dark),var(--bg-deep));
-    color:var(--text);
+    background:linear-gradient(to bottom,#0f172a,#111827);
+    color:#fff;
     overflow-x:hidden;
 }
 
@@ -28,7 +29,10 @@ body{
     width:100%;
     max-width:1250px;
     margin:auto;
-    padding:0 20px;
+    background:#111827;
+    border-radius:16px;
+    padding:25px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.2);
 }
 
 /* ===== HEADER ===== */
@@ -37,7 +41,7 @@ body{
     width:100%;
     background:linear-gradient(90deg,#00cc33,#0077ff);
     padding:10px 20px;
-    position:sticky;
+    position:relative;
     top:0;
     z-index:1000;
 }
@@ -63,11 +67,11 @@ body{
 
 /* LOGO */
 .logo-img{
-    height:85px;
-    width:auto;
+    height:auto;
+    max-width: 100%;
     object-fit:contain;
 
-    transform:scale(2.2);
+    transform:scale(2.8);
     transform-origin:left center;
 }
 
@@ -88,10 +92,6 @@ body{
     transition:0.3s ease;
 }
 
-.nav a:hover{
-    transform:translateY(-2px);
-    text-shadow:0 0 10px rgba(255,255,255,0.6);
-}
 
 /* UNDERLINE EFFECT */
 
@@ -163,12 +163,6 @@ button,
     transition:0.3s;
 }
 
-button:hover,
-.button:hover{
-    transform:translateY(-3px);
-
-    box-shadow:0 0 18px rgba(0,119,255,0.5);
-}
 
 /* ===== PRODUCTS ===== */
 
@@ -188,31 +182,19 @@ button:hover,
 /* ===== CARD ===== */
 
 .card{
-    background:rgba(255,255,255,0.05);
-
     border-radius:20px;
-
     padding:25px;
-
     text-align:center;
-
-    backdrop-filter:blur(10px);
-
+    background:#111827;
     transition:0.3s;
-
     min-height:430px;
-
     display:flex;
     flex-direction:column;
     justify-content:flex-start;
     align-items:center;
 }
 
-.card:hover{
-    transform:translateY(-6px);
 
-    box-shadow:0 12px 30px rgba(0,0,0,0.5);
-}
 
 /* ===== PRODUCT IMAGE ===== */
 
@@ -345,8 +327,8 @@ footer a{
 
     /* BIG MOBILE LOGO */
     .logo-img{
-        height:95px;
-        transform:scale(2.8);
+        max-width:100%;
+        height:auto;    
     }
 
     .nav{

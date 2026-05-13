@@ -18,7 +18,7 @@
     <meta property="og:description" content="Earn ₹300 per referral">
 
     <meta property="og:type" content="website">
-    <link rel="stylesheet" href="static\login.css">
+    <link rel="stylesheet" href="/static/login.css">
 </head>
 
 <body>
@@ -71,43 +71,21 @@
 </footer>
 </div>
 </main>
-<script src="config.js"></script>
-<script src="auth.js"></script>
+<script src="/static/config.js"></script>
+<script src="/static/auth.js"></script>
 
 <script>
 
-/* LOADER */
-window.onload = () => {
-  document.getElementById("loader").style.display = "none";
-}
-
-/* SMOOTH REDIRECT */
-function smoothRedirect(url){
-
-  document.body.classList.add("fade-out");
-
-  setTimeout(() => {
-    window.location.href = url;
-  }, 400);
-}
-
-/* PAGE LOAD */
-window.addEventListener("load", () => {
-  document.body.classList.add("loaded");
-});
-
-/* GO TO REGISTER */
-function goToRegister(){
-
-  smoothRedirect("register.html");
-
-}
-
-/* LOGIN */
 document.getElementById("loginForm")
 .addEventListener("submit", async (e) => {
 
     e.preventDefault();
+
+    const btn =
+    document.querySelector(".login-btn");
+
+    btn.innerText = "Please wait...";
+    btn.disabled = true;
 
     const username =
     document.getElementById("username").value;
@@ -151,6 +129,8 @@ document.getElementById("loginForm")
 
             alert(data.error || "Login failed");
 
+            btn.innerText = "Login";
+            btn.disabled = false;
         }
 
     }catch(err){
@@ -159,9 +139,39 @@ document.getElementById("loginForm")
 
         alert("Server error");
 
+        btn.innerText = "Login";
+        btn.disabled = false;
     }
 
 });
+
+/* LOADER */
+window.onload = () => {
+  document.getElementById("loader").style.display = "none";
+}
+
+/* SMOOTH REDIRECT */
+function smoothRedirect(url){
+
+  document.body.classList.add("fade-out");
+
+  setTimeout(() => {
+    window.location.href = url;
+  }, 400);
+}
+
+/* PAGE LOAD */
+window.addEventListener("load", () => {
+  document.body.classList.add("loaded");
+});
+
+/* GO TO REGISTER */
+function goToRegister(){
+
+  smoothRedirect("register.html");
+
+}
+
 </script>
 
 </body>

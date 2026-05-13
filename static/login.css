@@ -1,14 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
 
-html{
- scroll-behavior:smooth;
-}
-
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
     font-family:'Poppins',sans-serif;
+    -webkit-tap-highlight-color: transparent;
 }
 
 :root{
@@ -121,8 +118,7 @@ body.fade-out{
     border-radius:18px;
     animation: fadeIn 0.5s ease;
     background: rgba(255,255,255,0.05);
-    backdrop-filter: blur(15px);
-    box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
     border: 1px solid rgba(255,255,255,0.1);
 }
 
@@ -230,6 +226,11 @@ body.fade-out{
     cursor:pointer;
     display:block;
     transition:0.3s;
+}
+
+.login-btn:disabled{
+  opacity:0.7;
+  cursor:not-allowed;
 }
 
 .login-btn:hover{

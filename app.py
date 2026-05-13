@@ -300,11 +300,25 @@ def login():
     data = flask.request.json
     db = SessionLocal()
 
-    user = db.query(User).filter(User.username == data["username"]).first()
-    if not user or not check_password_hash(user.password, data["password"]):
-        return {"error": "Invalid"}, 401
+    try:
+        user = db.query(User).filter(
+            User.username == data["username"]
+        ).first()
 
-    return {"token": user.token, "balance": user.balance}
+        if not user or not check_password_hash(user.password, data["password"]):
+            return {"error": "Invalid username or password"}, 401
+
+        return {
+            "token": user.token,
+            "balance": user.balance
+        }
+
+    except Exception as e:
+        print("Login Error:", e)
+        return {"error": "Server error"}, 500
+
+    finally:
+        db.close()
 
 # Wallet Info
 @app.route("/api/wallet", methods=["GET"])
@@ -455,7 +469,7 @@ def verify_payment():
         return {"error": str(e)}, 500
     
 # Withdraw via UPI
-@app.route("/api/withdraw", methods=["POST"])
+@app.route("/api/reward-request", methods=["POST"])
 def withdraw():
     data = flask.request.json
     token = flask.request.headers.get("Authorization")
@@ -502,14 +516,14 @@ def withdraw():
             "purpose": "payout",
             "queue_if_low_balance": True,
             "reference_id": str(user.id),
-            "narration": "EduRefer Withdrawal"
+            "narration": "EduRefer Referral Reward"
         })
 
         # 🔥 4. Save transaction (VERY IMPORTANT)
         txn = Transaction(
             user_id=user.id,
             amount=user.balance,
-            type="withdraw",
+            type="reward_payout"
         )
         db.add(txn)
 
@@ -518,7 +532,7 @@ def withdraw():
         db.commit()
 
         return {
-            "message": "Money sent successfully 🚀",
+            "message": "Reward payout request submitted successfully🚀",
             "payout_id": payout["id"]
         }
 

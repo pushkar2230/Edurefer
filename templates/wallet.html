@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Wallet - EduRefer</title>
+<title>Referral Rewards - EduRefer</title>
 
 <link rel="stylesheet" href="static/styles.css">
 
@@ -120,7 +120,7 @@
       <a href="index.html">Home</a>
       <a href="dashboard.html">Dashboard</a>
       <a href="refer.html"> Refer</a>
-      <a href="wallet.html" class="active">Wallet</a>
+      <a href="wallet.html" class="active">Rewards</a>
       <a href="cart.html">Cart</a>
       <a href="#" onclick="logout()">Logout</a>
       <span id="userGreeting" class="greeting"></span>
@@ -132,7 +132,7 @@
 
 <div class="card">
 
-<h3>💰 Wallet Balance</h3>
+<h3>🎁 Referral Rewards</h3>
 
 <div class="balance">₹<span id="walletBalance">0</span></div>
 
@@ -140,7 +140,7 @@
   <div class="progress" id="progressBar"></div>
 </div>
 
-<p>₹600 required to withdraw</p>
+<p>Minimum ₹600 reward balance required for payout request</p>
 
 <div class="info-grid">
 
@@ -150,7 +150,7 @@
 </div>
 
 <div class="info-box">
-  <span>Withdrawable</span>
+  <span>Eligible Payout</span>
   <h3>₹<span id="withdrawableBalance">0</span></h3>
 </div>
 
@@ -164,11 +164,15 @@
   <h3 id="status">Locked 🔒</h3>
 </div>
 
-<input id="upi" placeholder="Enter your UPI ID" style="width:100%;padding:10px;margin-top:10px;border-radius:8px;border:none;">
+<input id="upi" placeholder="Enter UPI ID for reward payout" style="width:100%;padding:10px;margin-top:10px;border-radius:8px;border:none;">
+
+<p style="font-size:13px;color:#94a3b8;margin-top:10px;">
+Referral rewards are processed manually within 3-5 working days after verification.
+</p>
 
 </div>
 
-  <button class="btn" onclick="withdraw()">Withdraw Money</button>
+  <button class="btn" onclick="withdraw()">Request Payout</button>
 
 </div>
 
@@ -176,7 +180,7 @@
   <div class="card tips">
 
     <h3>🚀 Earn Faster</h3>
-    <p>Refer more friends to unlock withdrawals quickly!</p>
+    <p>Share educational products to earn referral rewards.</p>
 
   <br>
 
@@ -230,7 +234,7 @@ async function load(){
 
     if(data.balance < 600){
       withdrawBtn.disabled = true;
-      withdrawBtn.innerText = "Minimum ₹600 required";
+      withdrawBtn.innerText = "Minimum ₹600 rewards required";
     } else {
       withdrawBtn.disabled = false;
       withdrawBtn.innerText = "Withdraw Money";
@@ -240,7 +244,7 @@ async function load(){
     document.getElementById("progressBar").style.width = percent+"%";
 
     document.getElementById("status").innerText = 
-      data.balance >= 600 ? "Unlocked 🔓" : "Locked 🔒";
+      data.balance >= 600 ? "Eligible ✅" : "Not Eligible ⏳";
 
   }catch(err){
     console.error("Wallet Load Error:", err);
@@ -275,7 +279,7 @@ async function withdraw(){
     return;
   }
 
-  const res = await fetch("/api/withdraw", {
+  const res = await fetch("/api/reward-request", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",   // 🔥 THIS IS MISSING
