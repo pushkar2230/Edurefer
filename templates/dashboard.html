@@ -1,296 +1,296 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>User Dashboard</title>
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
 
-  <link rel="stylesheet" href="static/styles.css">
-  <link rel="stylesheet" href="static/dashboard.css">
+    <link rel="stylesheet" href="static/styles.css">
+    <link rel="stylesheet" href="static/dashboard.css">
 
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
-  <style>
-    .grid {
-      margin-top:70px;
+    <style>
+      .grid {
+        margin-top:70px;
 
-      display:grid;
-      grid-template:repeat(auto-fit,minmax(auto,auto));
+        display:grid;
+        grid-template:repeat(auto-fit,minmax(auto,auto));
 
 
-      gap:20px;
-      cursor: pointer;
-    }
+        gap:20px;
+        cursor: pointer;
+      }
 
-    .button {
-      background:linear-gradient(90deg,#00cc33,#0077ff);
-      padding:10px;
-      border:none;
-      border-radius:8px;
-      color:white;
-      cursor:pointer;
-    }
-  </style>
-</head>
+      .button {
+        background:linear-gradient(90deg,#00cc33,#0077ff);
+        padding:10px;
+        border:none;
+        border-radius:8px;
+        color:white;
+        cursor:pointer;
+      }
+    </style>
+  </head>
 
-<body>
+  <body>
 
-<header class="site-header">
-  <div class="container header-inner">
-    <div class="brand">
-      <img src="/static/Images/Edurefer Logo.png" class="logo-img" alt="Edurefer Logo">
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <img src="/static/Images/Edurefer Logo.png" class="logo-img" alt="Edurefer Logo">
+      </div>
+
+      <div class="nav">
+        <a href="index.html">Home</a>
+        <a href="dashboard.html" class="active">Dashboard</a>
+        <a href="refer.html"> Refer</a>
+        <a href="wallet.html">Reward</a>
+        <a href="cart.html">Cart</a>
+        <a href="#" onclick="logout()">Logout</a>
+        <span id="userGreeting" class="greeting"></span>
+      </div>
     </div>
+  </header>
 
-    <div class="nav">
-      <a href="index.html">Home</a>
-      <a href="dashboard.html" class="active">Dashboard</a>
-      <a href="refer.html"> Refer</a>
-      <a href="wallet.html">Wallet</a>
-      <a href="cart.html">Cart</a>
-      <a href="#" onclick="logout()">Logout</a>
-      <span id="userGreeting" class="greeting"></span>
+  <main class="container">
+  <section class="hero">
+
+  <div class="card" style="margin-top:20px;">
+    <h3>Recent Activity</h3>
+    <ul id="activityList" class="activity-list"></ul>
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+            <h2>Balance</h2>
+            <p>₹0</p>
+        </div>
+
+        <div class="stat-card">
+            <h2>Referrals</h2>
+            <p>0</p>
+        </div>
+
+        <div class="stat-card">
+            <h2>Earnings</h2>
+            <p>₹0</p>
+        </div>
     </div>
   </div>
-</header>
 
-<main class="container">
-<section class="hero">
+  <div class="card" style="margin-top:20px;">
+    <h3>Featured Products</h3>
 
-<div class="card" style="margin-top:20px;">
-  <h3>📊 Recent Activity</h3>
-  <ul id="activityList" class="activity-list"></ul>
+    <div class="products-grid">
 
-  <div class="stats-grid">
-
-      <div class="stat-card">
-          <h2>Balance</h2>
-          <p>₹0</p>
+      <div class="product-card">
+        <img src="/static/Images/career_start_kit.jpg" alt="Career Starter Bundle">
+        <div class="product-info">
+          <h3>Career Starter Bundle</h3>
+          <p>Resume + Roadmap</p>
+          <h2>₹500</h2>
+          <button onclick="addToCart('Career Starter Bundle',500)">Add to Cart</button>
+        </div>
       </div>
 
-      <div class="stat-card">
-          <h2>Referrals</h2>
-          <p>0</p>
+      <div class="product-card disabled">
+        <img src="/static/Images/career_switch_kit.jpg" alt="Career Switch Kit" alt="Career Switch Kit">
+        <div class="product-info">
+          <h3>Job Switch Kit</h3>
+          <p>Switch to high salary job</p>
+          <h2>₹500</h2>
+          <button disabled>
+              Launching Soon 🚀
+          </button>
+        </div>
       </div>
 
-      <div class="stat-card">
-          <h2>Earnings</h2>
-          <p>₹0</p>
+      <div class="product-card disabled">
+        <img src="/static/Images/freshers_kit.jpg" alt="Freshers Kit">
+        <div class="product-info">
+          <h3>Freshers Kit</h3>
+          <p>Get your first job</p>
+          <h2>₹500</h2>
+          <button disabled>
+              Launching Soon 🚀
+          </button>
+        </div>
       </div>
+
+    </div>
   </div>
-</div>
 
-<div class="card" style="margin-top:20px;">
-  <h3>🔥 Featured Products</h3>
-
-  <div class="products-grid">
-
-    <div class="product-card">
-      <img src="/static/Images/career_start_kit.jpg" alt="Career Starter Kit">
-      <div class="product-info">
-        <h3>Career Starter Kit</h3>
-        <p>Resume + Roadmap</p>
-        <h2>₹500</h2>
-        <button onclick="addToCart('Career Starter Kit',500)">Add to Cart</button>
-      </div>
-    </div>
-
-    <div class="product-card disabled">
-      <img src="/static/Images/career_switch_kit.jpg" alt="Career Switch Kit" alt="Career Switch Kit">
-      <div class="product-info">
-        <h3>Job Switch Kit</h3>
-        <p>Switch to high salary job</p>
-        <h2>₹500</h2>
-        <button disabled>
-            Launching Soon 🚀
-        </button>
-      </div>
-    </div>
-
-    <div class="product-card disabled">
-      <img src="/static/Images/freshers_kit.jpg" alt="Freshers Kit">
-      <div class="product-info">
-        <h3>Freshers Kit</h3>
-        <p>Get your first job</p>
-        <h2>₹500</h2>
-        <button disabled>
-            Launching Soon 🚀
-        </button>
-      </div>
-    </div>
-
+  <div class="card" style="margin-top:20px;">
+  <h3>Transactions</h3>
+  <ul id="txnList"></ul>
+  <br>
+  <button class="button" onclick="withdraw()">Withdraw</button>
   </div>
-</div>
 
-<div class="card" style="margin-top:20px;">
-<h3>Transactions</h3>
-<ul id="txnList"></ul>
-<br>
-<button class="button" onclick="withdraw()">Withdraw</button>
-</div>
+  </section>
+  </main>
 
-</section>
-</main>
+  <footer style="text-align:center; padding:20px; color:#aaa;">
+    &copy; 2026 EduRefer. All rights reserved.
+    <a href="terms.html">Terms</a> |
+    <a href="privacy.html">Privacy</a> |
+    <a href="refund.html">Refund</a>
+  </footer>
 
-<footer style="text-align:center; padding:20px; color:#aaa;">
-  &copy; 2026 EduRefer. All rights reserved.
-  <a href="terms.html">Terms</a> |
-  <a href="privacy.html">Privacy</a> |
-  <a href="refund.html">Refund</a>
-</footer>
+  <script>
 
-<script>
-
-const refInput = document.getElementById("refLink");
-if(refInput){
-  refInput.value = location.origin + "?ref=" + data.username;
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-
-  const username = localStorage.getItem("username") || "User";
-
-  let greet = "Hello";
-  const hour = new Date().getHours();
-
-  if(hour < 12) greet = "Good Morning";
-  else if(hour < 18) greet = "Good Afternoon";
-  else greet = "Good Evening";
-
-  const greetEl = document.getElementById("userGreeting");
-
-  if(greetEl){
-    greetEl.innerText = `👋 ${greet}, ${username}`;
+  const refInput = document.getElementById("refLink");
+  if(refInput){
+    refInput.value = location.origin + "?ref=" + data.username;
   }
 
-});
+  document.addEventListener("DOMContentLoaded", () => {
 
-// LOAD DATA
-async function load(){
+    const username = localStorage.getItem("username") || "User";
 
-  const token = localStorage.getItem("edurefer_token");
+    let greet = "Hello";
+    const hour = new Date().getHours();
 
-  const res = await fetch("/api/me", {
-    headers: { Authorization: token }
+    if(hour < 12) greet = "Good Morning";
+    else if(hour < 18) greet = "Good Afternoon";
+    else greet = "Good Evening";
+
+    const greetEl = document.getElementById("userGreeting");
+
+    if(greetEl){
+      greetEl.innerText = `👋 ${greet}, ${username}`;
+    }
+
   });
 
-  const data = await res.json();
+  // LOAD DATA
+  async function load(){
 
-  document.getElementById("balance").innerText = "₹" + data.balance;
-  document.getElementById("referrals").innerText = data.referrals || 0;
-  document.getElementById("earnings").innerText = "₹" + data.earnings || 0;
-}
+    const token = localStorage.getItem("edurefer_token");
 
-function addToCart(name, price){
-  let cart = JSON.parse(localStorage.getItem("edurefer_cart")) || [];
+    const res = await fetch("/api/me", {
+      headers: { Authorization: token }
+    });
 
-  const existing = cart.find(i => i.name === name);
+    const data = await res.json();
 
-  if(existing){
-    existing.quantity = (existing.quantity || 1) + 1;
-  } else {
-    cart.push({name, price, quantity:1});
+    document.getElementById("balance").innerText = "₹" + data.balance;
+    document.getElementById("referrals").innerText = data.referrals || 0;
+    document.getElementById("earnings").innerText = "₹" + data.earnings || 0;
   }
 
-  localStorage.setItem("edurefer_cart", JSON.stringify(cart));
+  function addToCart(name, price){
+    let cart = JSON.parse(localStorage.getItem("edurefer_cart")) || [];
 
-  alert(name + " added to cart 🛒");
-}
+    const existing = cart.find(i => i.name === name);
 
-async function withdraw(){
-  const res = await fetch("/api/withdraw",{method:"POST",headers:{Authorization:token}});
-  const data = await res.json();
-
-  alert(data.message || data.error);
-}
-
-function copy(){
-  const i=document.getElementById("refLink");
-  i.select();
-  document.execCommand("copy");
-}
-
-const activities = [
-  { icon: "✅", text: "Account created", time: "Just now" },
-  { icon: "💰", text: "Wallet initialized", time: "1 min ago" },
-  { icon: "🎯", text: "Referral system ready", time: "2 min ago" }
-];
-
-async function loadActivities(){
-  const res = await fetch("/api/activity", {
-    headers: {
-      "Authorization": localStorage.getItem("edurefer_token")
+    if(existing){
+      existing.quantity = (existing.quantity || 1) + 1;
+    } else {
+      cart.push({name, price, quantity:1});
     }
-  });
 
-  const data = await res.json();
+    localStorage.setItem("edurefer_cart", JSON.stringify(cart));
 
-  const list = document.getElementById("activityList");
-  list.innerHTML = "";
+    alert(name + " added to cart 🛒");
+  }
 
-  data.forEach(a => {
+  async function withdraw(){
+    const res = await fetch("/api/withdraw",{method:"POST",headers:{Authorization:token}});
+    const data = await res.json();
 
-    let icon = "📌";
+    alert(data.message || data.error);
+  }
 
-    if(a.type === "REFERRAL") icon = "💰";
-    if(a.type === "PURCHASE") icon = "🛒";
-    if(a.type === "WITHDRAW") icon = "🏧";
+  function copy(){
+    const i=document.getElementById("refLink");
+    i.select();
+    document.execCommand("copy");
+  }
 
-    list.innerHTML += `
-      <li class="activity-item">
-        <span class="activity-icon">${icon}</span>
-        <span class="activity-text">${a.text}</span>
-        <span class="activity-time">${a.time}</span>
-      </li>
-    `;
-  });
-}
+  const activities = [
+    { icon: "✅", text: "Account created", time: "Just now" },
+    { icon: "💰", text: "Wallet initialized", time: "1 min ago" },
+    { icon: "🎯", text: "Referral system ready", time: "2 min ago" }
+  ];
 
-async function loadTransactions(){
-  const res = await fetch("/api/transactions", {
-    headers: {
-      "Authorization": localStorage.getItem("edurefer_token")
-    }
-  });
+  async function loadActivities(){
+    const res = await fetch("/api/activity", {
+      headers: {
+        "Authorization": localStorage.getItem("edurefer_token")
+      }
+    });
 
-  const data = await res.json();
+    const data = await res.json();
 
-  const list = document.getElementById("txnList");
-  list.innerHTML = "";
+    const list = document.getElementById("activityList");
+    list.innerHTML = "";
 
-  data.forEach(tx => {
+    data.forEach(a => {
 
-    const color = tx.amount.startsWith("+") ? "#00ff99" : "#ff4d4d";
+      let icon = "📌";
 
-    list.innerHTML += `
-      <li style="display:flex; justify-content:space-between; padding:8px 0;">
-        <span>${tx.note}</span>
-        <span style="color:${color}; font-weight:bold;">
-          ${tx.amount}
-        </span>
-      </li>
-    `;
-  });
-}
+      if(a.type === "REFERRAL") icon = "💰";
+      if(a.type === "PURCHASE") icon = "🛒";
+      if(a.type === "WITHDRAW") icon = "🏧";
 
-loadActivities();
-loadTransactions();
+      list.innerHTML += `
+        <li class="activity-item">
+          <span class="activity-icon">${icon}</span>
+          <span class="activity-text">${a.text}</span>
+          <span class="activity-time">${a.time}</span>
+        </li>
+      `;
+    });
+  }
 
-const path = window.location.pathname;
+  async function loadTransactions(){
+    const res = await fetch("/api/transactions", {
+      headers: {
+        "Authorization": localStorage.getItem("edurefer_token")
+      }
+    });
 
-if(path.includes("index")) document.getElementById("nav-home")?.classList.add("active");
-if(path.includes("dashboard")) document.getElementById("nav-dashboard")?.classList.add("active");
-if(path.includes("refer")) document.getElementById("nav-refer")?.classList.add("active");
-if(path.includes("wallet")) document.getElementById("nav-wallet")?.classList.add("active");
-if(path.includes("cart")) document.getElementById("nav-cart")?.classList.add("active");
+    const data = await res.json();
 
-// 🔥 LOGOUT
-function logout(){
-  localStorage.clear();
-  window.location.href = "login.html";
-}
+    const list = document.getElementById("txnList");
+    list.innerHTML = "";
 
-load();
-</script>
+    data.forEach(tx => {
 
-</body>
-</html>
+      const color = tx.amount.startsWith("+") ? "#00ff99" : "#ff4d4d";
+
+      list.innerHTML += `
+        <li style="display:flex; justify-content:space-between; padding:8px 0;">
+          <span>${tx.note}</span>
+          <span style="color:${color}; font-weight:bold;">
+            ${tx.amount}
+          </span>
+        </li>
+      `;
+    });
+  }
+
+  loadActivities();
+  loadTransactions();
+
+  const path = window.location.pathname;
+
+  if(path.includes("index")) document.getElementById("nav-home")?.classList.add("active");
+  if(path.includes("dashboard")) document.getElementById("nav-dashboard")?.classList.add("active");
+  if(path.includes("refer")) document.getElementById("nav-refer")?.classList.add("active");
+  if(path.includes("wallet")) document.getElementById("nav-wallet")?.classList.add("active");
+  if(path.includes("cart")) document.getElementById("nav-cart")?.classList.add("active");
+
+  // 🔥 LOGOUT
+  function logout(){
+    localStorage.clear();
+    window.location.href = "login.html";
+  }
+
+  load();
+  </script>
+
+  </body>
+  </html>
