@@ -53,28 +53,28 @@ const params = new URLSearchParams(window.location.search);
 const ref = params.get("ref");
 
 if(ref){
-  localStorage.setItem("referrer", ref);
+localStorage.setItem("referrer", ref);
 }
 
 const referrer = localStorage.getItem("referrer"); // 🔥 ADD THIS
 
 async function openModal(type){
-  document.getElementById("modal").style.display = "flex";
-  
-  let page = "";
+document.getElementById("modal").style.display = "flex";
 
-  if(type === "terms") page = "terms.html";
-  if(type === "privacy") page = "privacy.html";
-  if(type === "refund") page = "refund.html";
+let page = "";
 
-  const res = await fetch(page);
-  const html = await res.text();
+if(type === "terms") page = "terms.html";
+if(type === "privacy") page = "privacy.html";
+if(type === "refund") page = "refund.html";
 
-  document.getElementById("modalContent").innerHTML = html;
+const res = await fetch(page);
+const html = await res.text();
+
+document.getElementById("modalContent").innerHTML = html;
 }
 
 function closeModal(){
-  document.getElementById("modal").style.display = "none";
+document.getElementById("modal").style.display = "none";
 }
 
 

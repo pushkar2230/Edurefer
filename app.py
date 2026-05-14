@@ -12,12 +12,6 @@ import razorpay
 import re
 import smtplib
 
-DATABASE_URL = os.getenv("DATABASE_URL")
-
-engine = create_engine(DATABASE_URL, pool_pre_ping=True)
-
-SessionLocal = sessionmaker(bind=engine)
-
 def is_valid_username(username):
     regex = r'^[a-zA-Z0-9_]{3,20}$'
     return re.match(regex, username)
@@ -26,7 +20,6 @@ def is_valid_email(email):
     regex = r'^[\w\.-]+@[\w\.-]+\.\w+$'
     return re.match(regex, email)
 
-# DB Setup
 # DB Setup
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
@@ -540,4 +533,4 @@ def withdraw():
         return {"error": str(e)}, 500    
     
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()

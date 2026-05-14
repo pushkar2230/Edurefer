@@ -7,50 +7,6 @@
     <meta name="description" content="Earn ₹300 per referral with EduRefer digital career kits.">
     <link rel="stylesheet" href="static/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-
-    <style>
-      body {
-        margin:0;
-        font-family:'Poppins';
-        background:linear-gradient(135deg,#0f172a,#020617);
-        color:white;
-      }
-
-      header {
-        background:linear-gradient(90deg,#00cc33,#0077ff);
-        padding:15px 40px;
-        display:flex;
-        justify-content:space-between;
-      }
-
-      .products {
-        display:grid;
-        grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-        gap:20px;
-        padding:30px;
-      }
-
-      .card {
-        background:rgba(255,255,255,0.05);
-        padding:20px;
-        border-radius:15px;
-        text-align:center;
-        transition:0.3s;
-      }
-
-      .card:hover {
-        transform:translateY(-6px);
-      }
-
-      .button {
-        background:linear-gradient(90deg,#00cc33,#0077ff);
-        padding:10px 20px;
-        border:none;
-        border-radius:10px;
-        color:white;
-        cursor:pointer;
-      }
-    </style>
   </head>
 
   <body>
@@ -65,9 +21,22 @@
         <a href="index.html" class="active">Home</a>
         <a href="dashboard.html">Dashboard</a>
         <a href="refer.html"> Refer</a>
-        <a href="wallet.html">Wallet</a>
-        <a href="cart.html">Cart</a>
-        <a href="login.html" >Login / Register</a>
+        <a href="wallet.html">Reward</a>
+
+        <a href="cart.html" class="cart-link">
+          🛒
+          <span class="cart-badge">
+            0
+          </span>
+        </a>
+          🛒
+        <a href="login.html" class="login-btn">
+            Login
+        </a>
+
+        <a href="register.html" class="signup-btn">
+            Sign Up
+        </a>
       </div>
     </div>
   </header>
@@ -109,20 +78,20 @@
   <button class="button" onclick="buy()">Buy Now</button>
   </div>
 
-  <div class="card">
+  <div class="card disabled">
   <img src="static/Images/career_switch_kit.jpg" class="product-img" width="400" height="220" alt="Career Switch Kit">
   <h3>Job Switch Kit</h3>
   <p>Switch to high salary job</p>
   <h2>₹500</h2>
-  <button class="button" onclick="buy()">Buy Now</button>
+  <button class="button" onclick="buy()" disabled>Buy Now</button>
   </div>
 
-  <div class="card">
+  <div class="card disabled">
   <img src="static/Images/freshers_kit.jpg" class="product-img" width="400" height="220" alt="Freshers Kit">
   <h3>Freshers Kit</h3>
   <p>Get your first job</p>
   <h2>₹500</h2>
-  <button class="button" onclick="buy()">Buy Now</button>
+  <button class="button" onclick="buy()" disabled>Buy Now</button>
   </div>
 
   </section>
@@ -192,6 +161,13 @@
   if(path.includes("dashboard")) document.getElementById("nav-dashboard")?.classList.add("active");
   if(path.includes("wallet")) document.getElementById("nav-wallet")?.classList.add("active");
   if(path.includes("cart")) document.getElementById("nav-cart")?.classList.add("active");
+
+  const token =localStorage.getItem("edurefer_token");
+
+  if(token){
+      window.location.href =
+      "dashboard.html";
+  }
 
   function buy(){
     const token = localStorage.getItem("edurefer_token");
