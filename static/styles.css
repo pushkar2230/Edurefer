@@ -41,8 +41,7 @@ body{
         180deg,
         #f8fbff,
         #eef9ff 45%,
-        #f0fdf9
-    );
+        #f0fdf9 90%);
 
     color:var(--text);
 

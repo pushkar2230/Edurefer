@@ -9,15 +9,15 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
   <style>
-    /* CARD */
-    .card {
-      margin-top: 30px;
-      background: rgba(255,255,255,0.06);
-      backdrop-filter: blur(12px);
-      border-radius: 16px;
-      padding: 25px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-    }
+  /* CARD */
+  .card {
+    margin-top: 30px;
+    background: rgba(255,255,255,0.06);
+    backdrop-filter: blur(12px);
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  }
   .cart-item {
     display: flex;
     justify-content: space-between;
@@ -130,8 +130,13 @@
       <a href="index.html">Home</a>
       <a href="dashboard.html">Dashboard</a>
       <a href="refer.html"> Refer</a>
-      <a href="wallet.html">Wallet</a>
-      <a href="cart.html" class="active">Cart</a>
+      <a href="wallet.html">Reward</a>
+      <a href="cart.html" class="cart-link">
+          🛒
+      <span class="cart-badge">
+          0
+      </span>
+      </a>
       <a href="#" onclick="logout()">Logout</a>
       <span id="userGreeting" class="greeting"></span>
     </div>
