@@ -184,6 +184,31 @@
     document.getElementById("earnings").innerText = "₹" + data.earnings || 0;
   }
 
+  function updateCartCount(){
+
+      const cart =
+      JSON.parse(
+          localStorage.getItem("edurefer_cart")
+      ) || [];
+
+      let total = 0;
+
+      cart.forEach(item => {
+
+          total += item.quantity || 1;
+
+      });
+
+      const badge =
+      document.querySelector(".cart-badge");
+
+      if(badge){
+
+          badge.innerText = total;
+
+      }
+  }
+
   function addToCart(name, price){
 
     let cart =
@@ -316,6 +341,7 @@
     window.location.href = "login.html";
   }
 
+  updateCartCount();
   load();
   </script>
 
