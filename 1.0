@@ -1,0 +1,7 @@
+Defaulting to user installation because normal site-packages is not writeable
+Requirement already satisfied: razorpay in C:\Users\Admin\AppData\Roaming\Python\Python314\site-packages (2.0.1)
+Requirement already satisfied: requests in C:\Users\Admin\AppData\Roaming\Python\Python314\site-packages (from razorpay) (2.33.1)
+Requirement already satisfied: charset_normalizer<4,>=2 in C:\Users\Admin\AppData\Roaming\Python\Python314\site-packages (from requests->razorpay) (3.4.7)
+Requirement already satisfied: idna<4,>=2.5 in C:\Users\Admin\AppData\Roaming\Python\Python314\site-packages (from requests->razorpay) (3.13)
+Requirement already satisfied: urllib3<3,>=1.26 in C:\Users\Admin\AppData\Roaming\Python\Python314\site-packages (from requests->razorpay) (2.6.3)
+Requirement already satisfied: certifi>=2023.5.7 in C:\Users\Admin\AppData\Roaming\Python\Python314\site-packages (from requests->razorpay) (2026.4.22)
