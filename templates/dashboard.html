@@ -180,9 +180,9 @@
 
     const data = await res.json();
 
-    document.getElementById("balance").innerText = "₹" + (data.balance || 0);
+    document.getElementById("balance").innerText = "₹" + data.balance;
     document.getElementById("referrals").innerText = data.referrals || 0;
-    document.getElementById("earnings").innerText = "₹" + (data.earnings || 0);
+    document.getElementById("earnings").innerText = "₹" + data.earnings;
   }
 
   function updateCartCount(){
