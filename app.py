@@ -19,13 +19,22 @@ def is_valid_email(email):
     return re.match(regex, email)
 
 # DB Setup
+# DB Setup
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
 DATABASE_URL = os.environ.get("DATABASE_URL")
 
+if DATABASE_URL and DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace(
+        "postgres://",
+        "postgresql://",
+        1
+    )
+
 engine = create_engine(
     DATABASE_URL,
     pool_pre_ping=True,
+    pool_recycle=300,
     connect_args={
         "sslmode": "require"
     }
