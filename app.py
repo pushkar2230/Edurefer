@@ -248,24 +248,42 @@ def register():
 def create_order():
 
     try:
+
         body = flask.request.json
+
+        if not body:
+            return {
+                "error":"No data received"
+            }, 400
 
         amount = body.get("amount")
 
-        # Razorpay paise me leta hai
+        if not amount:
+            return {
+                "error":"Amount missing"
+            }, 400
+
         amount = int(amount)
 
+        print("KEY:", RAZORPAY_KEY)
+        print("SECRET:", RAZORPAY_SECRET)
+
         order = razorpay_client.order.create({
+
             "amount": amount,
+
             "currency": "INR",
-            "receipt": secrets.token_hex(32),
+
+            "receipt": secrets.token_hex(10),
+
             "payment_capture": 1
         })
 
         return flask.jsonify(order)
 
     except Exception as e:
-        print(e)
+
+        print("CREATE ORDER ERROR:", e)
 
         return {
             "error": str(e)
@@ -560,7 +578,7 @@ def withdraw():
         db.commit()
 
         return {
-            "message": "Reward payout request submitted successfully🚀",
+            "message": "Reward payout request submitted successfully!",
             "payout_id": payout["id"]
         }
 
@@ -568,4 +586,4 @@ def withdraw():
         return {"error": str(e)}, 500    
     
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()

@@ -12,8 +12,9 @@
   /* CARD */
   .card {
     margin-top: 30px;
-    background: rgba(255,255,255,0.06);
-    backdrop-filter: blur(12px);
+    background:#ffffff;
+    border:1px solid #e5e7eb;
+    box-shadow:0 10px 30px rgba(0,0,0,0.06);
     border-radius: 16px;
     padding: 25px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.4);
@@ -285,7 +286,7 @@ async function checkout(){
   let cart = getCart();
 
   if(cart.length === 0){
-    alert("Cart empty 😅");
+    alert("Cart empty!! Please add some products to cart before checkout.");
     return;
   }
 
@@ -301,13 +302,13 @@ async function checkout(){
   const order = await res.json();
 
   if(!order.id){
-    alert("Something went wrong 😢");
+    alert("Something went wrong while creating order. Please try again.");
     return;
   }
 
   // ✅ STEP 2: Use order in Razorpay
   const options = {
-    key: "rzp_test_So74dSYKK1RhZD",
+    key: "rzp_test_SpbkOD9U8Vx6fK",   // 🔑 YOUR RAZORPAY KEY
     amount: order.amount,
     currency: "INR",
     order_id: order.id, // 🔥 MOST IMPORTANT
@@ -319,9 +320,18 @@ async function checkout(){
 
       // 🔐 VERIFY PAYMENT
     const verifyRes = await fetch("/api/verify-payment", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(response)
+
+        method: "POST",
+
+        headers: {
+
+            "Content-Type": "application/json",
+
+            "Authorization":
+            localStorage.getItem("edurefer_token")
+        },
+
+        body: JSON.stringify(response)
     });
 
     const result = await verifyRes.json();
